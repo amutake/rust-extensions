@@ -25,6 +25,7 @@ pub use tonic;
 /// Generated `containerd.types` types.
 pub mod types {
     tonic::include_proto!("containerd.types");
+    tonic::include_proto!("containerd.types.transfer");
 
     pub mod v1 {
         tonic::include_proto!("containerd.v1.types");
