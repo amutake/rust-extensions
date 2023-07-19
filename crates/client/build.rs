@@ -37,6 +37,7 @@ const PROTO_FILES: &[&str] = &[
     "vendor/github.com/containerd/containerd/api/services/snapshots/v1/snapshots.proto",
     "vendor/github.com/containerd/containerd/api/services/version/v1/version.proto",
     "vendor/github.com/containerd/containerd/api/services/tasks/v1/tasks.proto",
+    "vendor/github.com/containerd/containerd/api/services/transfer/v1/transfer.proto",
     // Events
     "vendor/github.com/containerd/containerd/api/events/container.proto",
     "vendor/github.com/containerd/containerd/api/events/content.proto",

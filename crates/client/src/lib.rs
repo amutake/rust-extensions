@@ -50,6 +50,7 @@ pub mod services {
         tonic::include_proto!("containerd.services.leases.v1");
         tonic::include_proto!("containerd.services.namespaces.v1");
         tonic::include_proto!("containerd.services.tasks.v1");
+        tonic::include_proto!("containerd.services.transfer.v1");
 
         // Sandbox services (Controller and Store) don't make it clear that they are for sandboxes.
         // Wrap these into a sub module to make the names more clear.
