@@ -31,7 +31,7 @@ async fn main() {
 
     let mut client = TransferClient::new(channel.clone());
     let registry = Any {
-        type_url: "types.containerd.io/containerd.types.transfer/OCIRegistry".to_string(),
+        type_url: "types.containerd.io/containerd.types.transfer.OCIRegistry".to_string(),
         value: client::types::OciRegistry {
             reference: "registry-1.docker.io/library/hello-world:latest".to_string(),
             ..Default::default()
@@ -39,7 +39,7 @@ async fn main() {
         .encode_to_vec(),
     };
     let image_store = Any {
-        type_url: "types.containerd.io/containerd.types.transfer/ImageStore".to_string(),
+        type_url: "types.containerd.io/containerd.types.transfer.ImageStore".to_string(),
         value: client::types::ImageStore {
             name: "registry-1.docker.io/library/hello-world:latest".to_string(),
             ..Default::default()
