@@ -14,13 +14,19 @@
    limitations under the License.
 */
 
-use client::services::v1::{
-    images_client::ImagesClient, transfer_client::TransferClient, ListImagesRequest,
-    TransferRequest,
+use client::{
+    services::v1::{
+        images_client::ImagesClient, transfer_client::TransferClient, ListImagesRequest,
+        TransferRequest,
+    },
+    with_namespace,
 };
 use containerd_client as client;
 use prost::Message;
 use prost_types::Any;
+use tonic::Request;
+
+const NAMESPACE: &str = "default";
 
 /// Make sure you run containerd before running this example.
 #[tokio::main(flavor = "current_thread")]
@@ -31,7 +37,7 @@ async fn main() {
 
     let mut client = TransferClient::new(channel.clone());
     let registry = Any {
-        type_url: "types.containerd.io/containerd.types.transfer.OCIRegistry".to_string(),
+        type_url: "containerd.types.transfer.OCIRegistry".to_string(),
         value: client::types::OciRegistry {
             reference: "registry-1.docker.io/library/hello-world:latest".to_string(),
             ..Default::default()
@@ -39,7 +45,7 @@ async fn main() {
         .encode_to_vec(),
     };
     let image_store = Any {
-        type_url: "types.containerd.io/containerd.types.transfer.ImageStore".to_string(),
+        type_url: "containerd.types.transfer.ImageStore".to_string(),
         value: client::types::ImageStore {
             name: "registry-1.docker.io/library/hello-world:latest".to_string(),
             ..Default::default()
@@ -51,11 +57,15 @@ async fn main() {
         destination: Some(image_store),
         options: None,
     };
+    let req = with_namespace!(req, NAMESPACE);
+    println!("Pulling image...");
     let _resp = client.transfer(req).await.expect("Failed to pull image");
+    println!("Done");
 
     let mut client = ImagesClient::new(channel.clone());
     let req = ListImagesRequest { filters: vec![] };
+    let req = with_namespace!(req, NAMESPACE);
+    println!("Listing images...");
     let resp = client.list(req).await.expect("Failed to list images");
-
     println!("Response: {:?}", resp.get_ref());
 }
